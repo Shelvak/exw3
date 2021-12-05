@@ -585,6 +585,21 @@ defmodule ExW3.Contract do
         end
       end)
 
+    combined_logs =
+      formatted_logs
+      |> Enum.with_index()
+      |> Enum.map(fn {flog, i} ->
+        log = logs |> Enum.at(i)
+
+        if flog do
+          log |> Map.put("decoded_data", flog)
+        else
+          log
+        end
+      end)
+
+    receipt = receipt |> Map.put("logs", combined_logs)
+
     {:reply, {:ok, {receipt, formatted_logs}}, state}
   end
 end

@@ -3,7 +3,7 @@ defmodule ExW3 do
   defdelegate block_number(opts \\ []), to: ExW3.Rpc
   defdelegate balance(account, opts \\ []), to: ExW3.Rpc
   defdelegate tx_receipt(tx_hash), to: ExW3.Rpc
-  defdelegate block(block_number), to: ExW3.Rpc
+  defdelegate block(block_number, with_transactions \\ true), to: ExW3.Rpc
   defdelegate new_filter(map), to: ExW3.Rpc
   defdelegate get_filter_changes(filter_id), to: ExW3.Rpc
   defdelegate get_logs(filter, opts \\ []), to: ExW3.Rpc
