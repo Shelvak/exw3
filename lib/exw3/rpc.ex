@@ -45,8 +45,8 @@ defmodule ExW3.Rpc do
 
   @doc "Returns transaction receipt for specified transaction hash(id)"
   @spec tx_receipt(binary()) :: {:ok, map()} | {:error, any()}
-  def tx_receipt(tx_hash) do
-    case call_client(:eth_get_transaction_receipt, [tx_hash]) do
+  def tx_receipt(tx_hash, opts \\ []) do
+    case call_client(:eth_get_transaction_receipt, [tx_hash, opts]) do
       {:ok, nil} ->
         {:error, :not_mined}
 
@@ -72,8 +72,8 @@ defmodule ExW3.Rpc do
 
   @doc "Creates a new filter, returns filter id. For more sophisticated use, prefer ExW3.Contract.filter."
   @spec new_filter(map()) :: binary() | {:error, any()}
-  def new_filter(map) do
-    case call_client(:eth_new_filter, [map]) do
+  def new_filter(map, opts \\ []) do
+    case call_client(:eth_new_filter, [map, opts]) do
       {:ok, filter_id} -> filter_id
       err -> err
     end
@@ -81,8 +81,8 @@ defmodule ExW3.Rpc do
 
   @doc "Gets event changes (logs) by filter. Unlike ExW3.Contract.get_filter_changes it does not return the data in a formatted way"
   @spec get_filter_changes(binary()) :: any()
-  def get_filter_changes(filter_id) do
-    case call_client(:eth_get_filter_changes, [filter_id]) do
+  def get_filter_changes(filter_id, opts \\ []) do
+    case call_client(:eth_get_filter_changes, [filter_id, opts]) do
       {:ok, changes} -> changes
       err -> err
     end
@@ -107,8 +107,8 @@ defmodule ExW3.Rpc do
 
   @doc "Uninstalls filter from the ethereum node"
   @spec uninstall_filter(binary()) :: boolean() | {:error, any()}
-  def uninstall_filter(filter_id) do
-    case call_client(:eth_uninstall_filter, [filter_id]) do
+  def uninstall_filter(filter_id, opts \\ []) do
+    case call_client(:eth_uninstall_filter, [filter_id, opts]) do
       {:ok, result} -> result
       err -> err
     end
