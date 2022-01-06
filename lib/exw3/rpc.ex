@@ -63,8 +63,8 @@ defmodule ExW3.Rpc do
 
   @doc "Returns block data for specified block number"
   @spec block(integer()) :: any() | {:error, any()}
-  def block(block_number, with_transaction \\ true) do
-    case call_client(:eth_get_block_by_number, [block_number, with_transaction]) do
+  def block(block_number, with_transaction \\ true, opts \\ []) do
+    case call_client(:eth_get_block_by_number, [block_number, with_transaction, opts]) do
       {:ok, block} -> block
       err -> err
     end
