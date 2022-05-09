@@ -216,6 +216,21 @@ defmodule ExW3.Contract do
     {:reply, info, state}
   end
 
+  @doc "Returns keys/names added to the server"
+  # @spec keys(atom()) :: {:ok, list()}
+  def keys(server \\ ContractManager) do
+    GenServer.call(server, {:keys})
+  end
+
+  def handle_call({:keys}, _from, state) do
+    contract_keys =
+      state
+      |> Map.keys()
+      |> Kernel.--([:filters, :opts])
+
+    {:reply, contract_keys, state}
+  end
+
   defp data_signature_helper(name, fields) do
     non_indexed_types = Enum.map(fields, &Map.get(&1, "type"))
     Enum.join([name, "(", Enum.join(non_indexed_types, ","), ")"])
