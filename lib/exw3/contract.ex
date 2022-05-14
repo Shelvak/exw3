@@ -219,15 +219,18 @@ defmodule ExW3.Contract do
   @doc "Returns keys/names added to the server"
   # @spec keys(atom()) :: {:ok, list()}
   def keys(server \\ ContractManager) do
+    IO.puts "Keys para: #{inspect server}"
     GenServer.call(server, {:keys})
   end
 
   def handle_call({:keys}, _from, state) do
+    IO.puts "1"
     contract_keys =
       state
       |> Map.keys()
       |> Kernel.--([:filters, :opts])
 
+    IO.puts "#{}2"
     {:reply, contract_keys, state}
   end
 
