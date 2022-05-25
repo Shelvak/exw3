@@ -70,6 +70,17 @@ defmodule ExW3.Contract do
     address({ContractManager, name})
   end
 
+  @doc "Returns the current Contract GenServer's abi"
+  @spec abi({atom(), atom()}) :: {:ok, binary()}
+  @spec abi(atom()) :: {:ok, binary()}
+  def abi({server, name}) do
+    GenServer.call(server, {:abi, name})
+  end
+
+  def abi(name) do
+    abi({ContractManager, name})
+  end
+
   @doc "Use a Contract's method with an eth_call"
   @spec call({atom(), atom()}, atom(), list(), any()) :: {:ok, any()}
   @spec call(atom(), atom(), list(), any()) :: {:ok, any()}
@@ -590,6 +601,10 @@ defmodule ExW3.Contract do
 
   def handle_call({:address, name}, _from, state) do
     {:reply, state[name][:address], state}
+  end
+
+  def handle_call({:abi, name}, _from, state) do
+    {:reply, state[name][:abi], state}
   end
 
   def handle_call({:call, {contract_name, method_name, args}}, _from, state) do

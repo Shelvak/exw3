@@ -110,6 +110,22 @@ defmodule EXW3.ContractTest do
     assert ExW3.Contract.address({:alt, :SimpleStorage}) == address
   end
 
+  test ".abi returns the registered abi for the contract" do
+    assert ExW3.Contract.abi(:SimpleStorageAbiTest) == nil
+
+    ExW3.Contract.register(:SimpleStorageAbiTest, abi: @simple_storage_abi)
+
+    assert ExW3.Contract.abi(:SimpleStorageAbiTest) == @simple_storage_abi
+  end
+
+  test ".abi returns the registered abi for the contract on alternative GenServer" do
+    assert ExW3.Contract.abi({:alt, :SimpleStorageAbiTest}) == nil
+
+    ExW3.Contract.register({:alt, :SimpleStorageAbiTest}, abi: @simple_storage_abi)
+
+    assert ExW3.Contract.abi({:alt, :SimpleStorageAbiTest}) == @simple_storage_abi
+  end
+
   test ".opts returns the registered options for the contract" do
     assert {:ok, []} == ExW3.Contract.opts()
     assert {:ok, [url: "http://localhost:9545"]} == ExW3.Contract.opts(:alt)
